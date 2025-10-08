@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-next-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-next-app
+  template:
+    metadata:
+      labels:
+        app: my-next-app
+    spec:
+      containers:
+      - name: my-next-app
+        image: ghcr.io/alexabit10001/my-next-app:latest
+        ports:
+        - containerPort: 3000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+
